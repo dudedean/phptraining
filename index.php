@@ -2,8 +2,21 @@
 
 	require('config.php');
 
+	if(isset($_POST['delete'])){
+		$delete_id = mysqli_real_escape_string($conn,$_POST['delete_id']);
+var_dump($delete_id);
+		$sql = "DELETE from users WHERE id = '$delete_id'";	
+		
+		if(mysqli_query($conn,$sql)){
+		header('Location: '.ROOT_URL.'');
+		}
+		else{
+		echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+		}	
+	}
+
 	//Create Query
-	$sql = "SELECT email,name from users";
+	$sql = "SELECT * from users";
 
 	//Get Result
 	$result = mysqli_query($conn,$sql);
@@ -39,7 +52,7 @@
 		<div class="col-md-6 well well-lg">
 			<fieldset>
    				<legend>Legend</legend>
-				<form action="insert.php" method="POST" class="form-horizontal">
+				<form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST" class="form-horizontal">
 					<div class="form-group">
 						<label>Name : </label>
 						<input type="text" class="form-control" name="name">
@@ -58,12 +71,16 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6 well well-lg">
-				<h1>Users</h1>
-				<?php foreach($users as $user) : ?>
-					<ul>
-						<li>Name : <?php echo $user['name'] ; ?> <br> Email : <?php echo $user['email'] ; ?></li>
-					</ul>
-				<?php endforeach ; ?>
+				<form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST class=form-horizontal">
+					<h1>Users</h1>
+					<?php foreach($users as $user) : ?>
+						<ul>
+							<li>Name : <?php echo $user['name'] ; ?> <br> Email : <?php echo $user['email'] ; ?></li>
+							<input type="hidden" name="delete_id" value="<?php echo $user['id']; ?>">
+							<input type="submit" name="delete" value="Delete" class="btn btn-danger">
+						</ul>
+					<?php endforeach ; ?>
+				</form>
 			</div>
 		</div>
 	</div>

@@ -8,7 +8,7 @@
 	$sql = "INSERT INTO users (name,email,password) VALUES ('$name','$email','$password')";
 	
 	if(mysqli_query($conn,$sql)){
-		echo "Records added successfully.";
+		header('Location: '.ROOT_URL.'');
 	}
 	else{
 		echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);

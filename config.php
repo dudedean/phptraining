@@ -1,5 +1,6 @@
 <?php
 
+	define('ROOT_URL','http://localhost/tryPhp/index.php');
 	$servername = "localhost";
 	$username = "root";
 	$password = "";
